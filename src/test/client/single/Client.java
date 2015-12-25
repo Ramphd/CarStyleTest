@@ -15,7 +15,7 @@ import java.util.concurrent.Callable;
 import com.alibaba.fastjson.JSON;
 
 public class Client implements Callable<String[]> {
-	private static int portNum = 2333;
+	private static int portNum = 23333;
 	private Socket socket;
 	private BufferedReader in;
 	private PrintWriter out;
@@ -23,8 +23,8 @@ public class Client implements Callable<String[]> {
 
 	public Client(String execode) throws IOException {
 		// TODO Auto-generated constructor stub
-		InetAddress addr = InetAddress.getByName("localhost");
-		socket = new Socket(addr, portNum);
+		
+		socket = new Socket("211.87.227.209", portNum);
 		socket.setSoLinger(true, 30);
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
@@ -32,20 +32,22 @@ public class Client implements Callable<String[]> {
 
 	}
 
-	@SuppressWarnings("unchecked")
-	private String[] carStylePRun() throws IOException {
+	private String[] carStylePRun() throws Exception {
 		try {
 			System.out.println(socket);
 			out.println(execode);
 			System.out.println("'" + execode + "'" + " has been sended");
-			// Receive json_image_name_list
+			
+			String check = in.readLine();
+			if("True".equals(check)){
+				// Receive json_image_name_list
 			String j_image_name_list = in.readLine();
-			System.out.println("json_: " + j_image_name_list);
+			System.out.println("json_nameList: " + j_image_name_list);
 			// send json_image_name_list feedback
 			out.println("imageNameList has been received");
 			// receive json_predict_result
 			String j_predict_result = in.readLine();
-			System.out.println("json_: " + j_predict_result);
+			System.out.println("json_result: " + j_predict_result);
 			// send json_predict_result feedback
 			out.println("predictResult has been received");
 //			ArrayList<String> al = new ArrayList<String>();
@@ -58,6 +60,9 @@ public class Client implements Callable<String[]> {
 			rstr[0] = j_image_name_list;
 			rstr[1] = j_predict_result;
 			return rstr;
+			}else{
+				throw new Exception("wth wrong");
+			}
 		} finally {
 			System.out.println("close the Client socket and the io.");
 			in.close();
@@ -67,7 +72,7 @@ public class Client implements Callable<String[]> {
 	}
 
 	@Override
-	public String[] call() throws IOException {
+	public String[] call() throws Exception {
 		// TODO Auto-generated method stub
 		return carStylePRun();
 	}
