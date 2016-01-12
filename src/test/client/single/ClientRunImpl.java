@@ -2,7 +2,6 @@ package test.client.single;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -12,16 +11,12 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
 import com.alibaba.fastjson.JSON;
 
 public class ClientRunImpl {
 	private String caffe_root = "/home/cari/caffe/";
 
-	private ExecutorService executor = Executors.newCachedThreadPool();
+	// private ExecutorService executor = Executors.newCachedThreadPool();
 
 	public HashMap<String, Object> singleCar(String imageAddr)
 			throws IOException, InterruptedException, ExecutionException {
@@ -53,18 +48,19 @@ public class ClientRunImpl {
 		return taskSubmit(execode);
 	}
 
-	private HashMap<String, Object> taskSubmit(String ecode) throws IOException, InterruptedException, ExecutionException {
-		Future<String[]> result = executor.submit(new Client(ecode));
+	private HashMap<String, Object> taskSubmit(String ecode)
+			throws IOException, InterruptedException, ExecutionException {
+		// Future<String[]> result = executor.submit(new Client(ecode));
 		// executor.shutdown();
 		String[] s = new String[2];
 
 		try {
-			s = result.get();
+			// s = result.get();
+			s = new Client(ecode).carStylePRun();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return pResult(s);
 	}
 
@@ -81,18 +77,17 @@ public class ClientRunImpl {
 		tmp.put("result", hm);
 		return tmp;
 	}
-	private String getImageDir(String imageAddr) throws UnknownHostException, IOException{
-		Socket socket = new Socket("211.87.227.209", 6666);
-		socket.setSoLinger(true, 10);
-		BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())));
-		out.println(imageAddr);
-		String dirAddress = in.readLine();
-		System.out.println(dirAddress);
-		socket.close();
-		return null;
-	}
-	public void terminal() {
-		executor.shutdown();
-	}
+
+	private String getImageDir(String imageAddr) throws UnknownHostException, IOException {
+		 // TODO Auto-generated method stub 
+		 Socket socket = new Socket("211.87.227.209", 6666);
+		 socket.setSoLinger(true, 10);
+		 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		 PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+		 out.println(imageAddr);
+		 String imageDir = in.readLine();
+		 System.out.println(imageDir);
+		 socket.close();
+		 return imageDir;
+		 }
 }

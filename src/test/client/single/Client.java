@@ -6,15 +6,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.concurrent.Callable;
 
-import com.alibaba.fastjson.JSON;
-
-public class Client implements Callable<String[]> {
+//public class Client implements Callable<String[]> {
+public class Client {
 	private static int portNum = 23333;
 	private Socket socket;
 	private BufferedReader in;
@@ -32,7 +27,7 @@ public class Client implements Callable<String[]> {
 
 	}
 
-	private String[] carStylePRun() throws Exception {
+	public String[] carStylePRun() throws Exception {
 		try {
 			System.out.println(socket);
 			out.println(execode);
@@ -70,10 +65,10 @@ public class Client implements Callable<String[]> {
 			socket.close();
 		}
 	}
-
-	@Override
-	public String[] call() throws Exception {
-		// TODO Auto-generated method stub
-		return carStylePRun();
-	}
+//
+//	@Override
+//	public String[] call() throws Exception {
+//		// TODO Auto-generated method stub
+//		return carStylePRun();
+//	}
 }

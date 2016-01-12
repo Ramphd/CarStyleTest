@@ -1,12 +1,11 @@
 package test.client.single;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 
 public class GetInfoTest {
-	private static String dir = "CarStyle_test/test1/";
+	private static String dir = "CarStyle_test/test2/";
 	private static String imagePath = "CarStyle_test/" + "0019_66.jpg";
 	
 	public static void main(String[] args) throws IOException, InterruptedException, ExecutionException {
@@ -18,14 +17,9 @@ public class GetInfoTest {
 		//cri.oneImageMultiCars(imagePath);
 		//hm2 = cri.singleCar(imagePath);
 		//System.out.println(hm2 + "\n" + hm1);
-//		System.out.println(cri.oneDirMultiCars(dir));
-//		System.out.println(cri.singleCar(imagePath));
-//		System.out.println(cri.oneDirMultiCars(dir));
-//		System.out.println(cri.singleCar(imagePath));
-//		System.out.println(cri.oneDirMultiCars(dir));
-//		System.out.println(cri.singleCar(imagePath));
+
 		System.out.println("main");
-		cri.terminal();
+//		cri.terminal();
 	}
 
 }
